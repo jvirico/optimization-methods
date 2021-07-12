@@ -4,20 +4,27 @@ from matplotlib import pyplot as plt
 '''
     Newton's Method
         (1) Univariable optimization
-            (1.1) First order
-            (1.2) Second order
+            (1.1) First order to find root
+            (1.2) Second order to find local minima
         (2) Multivariable optimization
 '''
 # (1)
 #   Definitions
+# Non convex but has a solution in interval [1,2]
 def f(x):
     return float(x**3 + 2 * x**2 + 10*x - 20)
-
 def df(x):
     return float(3 * x**2 + 4 * x + 10)
-
 def d2f(x):
     return float(6 * x + 4)
+
+# Convex in interval [0,1]
+def g(x):
+    return float(x**3 + 14 * x**2 - 12 * x + 2)
+def dg(x):
+    return float(3 * x**2 + 28*x-12)
+def d2g(x):
+    return float(6 * x + 28)
 
 #   Prooving that f(x) has solution in the interval [1,2]
 '''
@@ -59,7 +66,7 @@ def Newtons_Method_1st(f,df,x0,err,max_iter,debug):
     print('Too many iterations')
     return None
 
-# Example
+# Example f(x)
 print('Running Newtons Method using 1st order approach, for f(x), x_0 = 1, and 100 iterations:')
 sol1, values1 = Newtons_Method_1st(f,df,1, 0.00000001, 100, True)
 
@@ -79,7 +86,7 @@ def Netwons_Method_2nd(f,df,d2f,x0,err,max_iter,debug):
             if debug: print('Solution found (', xk,') on iteration ',n, ' of Newtons Method')
             values[n:] = xk
             return xk, values
-        if dfxk == 0:
+        if d2fxk == 0:
             print('Error')
             return None
         
@@ -91,14 +98,26 @@ def Netwons_Method_2nd(f,df,d2f,x0,err,max_iter,debug):
     print('Too many iterations')
     return xk, values
 
-# Example
+# Example f(x)
 print()
-print('Running Newtons Method using 2st order approach, for f(x), x_0 = 1, and 100 iterations:')
+print('Running Newtons Method using 2st order approach to find local minima in the non-convex function f(x), x_0 = 1, and 100 iterations:')
 sol2, values2 = Netwons_Method_2nd(f,df,d2f,1, 0.00000001, 100, True)
 
 
-# Plotting both approximations
+# Plotting both approximations for f(x)
 x_vect = np.array(range(100))
 plt.plot(x_vect, values1,
         x_vect,values2)
 plt.show()
+
+
+# Example g(x)
+print('Running Newtons Method using 1st order approach, for f(x), x_0 = 1, and 100 iterations:')
+sol1, values1 = Newtons_Method_1st(g,dg,1.0, 0.00000001, 100, True)
+# Finds closes root!!
+
+# Example g(x)
+print()
+print('Running Newtons Method using 2st order approach, for f(x), x_0 = 1, and 100 iterations:')
+sol2, values2 = Netwons_Method_2nd(g,dg,d2g,1.0, 0.000001, 100, True)
+# Finds minimizer!
