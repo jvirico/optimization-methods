@@ -121,3 +121,8 @@ print()
 print('Running Newtons Method using 2st order approach, for f(x), x_0 = 1, and 100 iterations:')
 sol2, values2 = Netwons_Method_2nd(g,dg,d2g,1.0, 0.000001, 100, True)
 # Finds minimizer!
+
+
+# Multivariate
+H = np.array([[10,8],[8,10]])
+print(H)
